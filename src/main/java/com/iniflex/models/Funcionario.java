@@ -10,7 +10,6 @@ import java.util.Locale;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "funcionario")
 public class Funcionario extends Pessoa implements Serializable {

@@ -59,6 +59,18 @@ public class Main {
 
         funcionarios.forEach(System.out::println);
 
+        // Aumento de 10% para os funcionários
+        funcionarios.stream().forEach(funcionario -> {
+            BigDecimal aumento = funcionario.getSalario().multiply(BigDecimal.valueOf(1.10));
+            funcionario.setSalario(aumento);
+            em.getTransaction().begin();
+            em.persist(funcionario);
+            em.getTransaction().commit();
+        });
+
+        funcionarios.forEach(System.out::println);
+
+
         em.close();
         emf.close();
     }
