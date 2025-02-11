@@ -93,6 +93,13 @@ public class Main {
 
         System.out.println("Nome= " + maisVelho.getNome() + ", idade= " + maisVelho.getIdade());
 
+        // Exibir a lista de funcionários por ordem alfabética
+        List<Funcionario> funcionariosOrdenados = funcionarios.stream()
+                .sorted(Comparator.comparing(Funcionario::getNome))
+                .toList();
+
+        funcionariosOrdenados.forEach(System.out::println);
+
         em.close();
         emf.close();
     }
