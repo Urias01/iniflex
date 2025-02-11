@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -60,7 +63,7 @@ public class Main {
         funcionarios.forEach(System.out::println);
 
         // Aumento de 10% para os funcionários
-        funcionarios.stream().forEach(funcionario -> {
+        funcionarios.forEach(funcionario -> {
             BigDecimal aumento = funcionario.getSalario().multiply(BigDecimal.valueOf(1.10));
             funcionario.setSalario(aumento);
             em.getTransaction().begin();
@@ -70,6 +73,16 @@ public class Main {
 
         funcionarios.forEach(System.out::println);
 
+        // Agrupamento de funcionários por função
+        Map<String, String> funcionarioPorFuncao = funcionarios.stream()
+                .collect(Collectors.toMap(
+                        Funcionario::getFuncao,
+                        Funcionario::getNome,
+                        (nome1, nome2) -> nome1 + ", " + nome2
+                ));
+
+        // Exibir os funcionários por função
+        System.out.println(funcionarioPorFuncao);
 
         em.close();
         emf.close();
