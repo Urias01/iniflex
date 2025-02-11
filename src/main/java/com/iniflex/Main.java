@@ -1,6 +1,7 @@
 package com.iniflex;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -57,7 +58,7 @@ public class Main {
         q = em.createQuery("SELECT f FROM Funcionario f");
         List<Funcionario> funcionarios = q.getResultList();
 
-        System.out.println("Lista de funcionários\n");
+        System.out.println("Lista de funcionários");
         funcionarios.forEach(System.out::println);
 
         // Aumento de 10% para os funcionários
@@ -69,7 +70,7 @@ public class Main {
             em.getTransaction().commit();
         });
 
-        System.out.println("\nAumento de 10 por cento\n");
+        System.out.println("\nAumento de 10 por cento");
         funcionarios.forEach(System.out::println);
 
         // Agrupamento de funcionários por função
@@ -81,12 +82,12 @@ public class Main {
                 ));
 
         // Exibir os funcionários por função
-        System.out.println("\nExibir funcionário por função\n");
+        System.out.println("\nExibir funcionário por função");
         System.out.println(funcionarioPorFuncao);
 
 
         // Exibir funcionários que fazem aniversário no mês 10 e 12
-        System.out.println("\nExibir funcionário que faz aniversário no mês 10 e 12\n");
+        System.out.println("\nExibir funcionário que faz aniversário no mês 10 e 12");
         funcionarios.forEach(funcionario -> {
             if (funcionario.getDataNascimento().getMonthValue() == 10 || funcionario.getDataNascimento().getMonthValue() == 12) {
                 System.out.println(funcionario);
@@ -96,7 +97,7 @@ public class Main {
         // Exibir funcionário que tenha a maior idade
         Funcionario maisVelho = funcionarios.stream().min(Comparator.comparing(Funcionario::getDataNascimento)).orElse(null);
 
-        System.out.println("\nExibir funcionário Que tenha a maior idade\n");
+        System.out.println("\nExibir funcionário Que tenha a maior idade");
         System.out.println("Nome= " + maisVelho.getNome() + ", idade= " + maisVelho.getIdade());
 
         // Exibir a lista de funcionários por ordem alfabética
@@ -104,7 +105,7 @@ public class Main {
                 .sorted(Comparator.comparing(Funcionario::getNome))
                 .toList();
 
-        System.out.println("\nExibir funcionário por ordem alfabética\n");
+        System.out.println("\nExibir funcionário por ordem alfabética");
         funcionariosOrdenados.forEach(System.out::println);
 
 
@@ -118,6 +119,14 @@ public class Main {
 
         System.out.println("\nSalario total: " + salarioTotal);
 
+        Map<String, BigDecimal> salariosMinimos = funcionarios.stream()
+                .collect(Collectors.toMap(
+                        Funcionario::getNome,
+                        funcionario -> funcionario.getSalario().divide(BigDecimal.valueOf(1212.00), 2, RoundingMode.HALF_EVEN)
+                ));
+
+        System.out.println("\nQuantidade de Salários Mínimos");
+        System.out.println(salariosMinimos);
 
         em.close();
         emf.close();
