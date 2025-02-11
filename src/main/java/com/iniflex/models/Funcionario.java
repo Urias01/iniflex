@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -47,6 +48,10 @@ public class Funcionario extends Pessoa implements Serializable {
 
   public void setFuncao(String funcao) {
     this.funcao = funcao;
+  }
+
+  public int getIdade() {
+    return Period.between(getDataNascimento(), LocalDate.now()).getYears();
   }
 
   public static String formatBirthidate(LocalDate dataAniversario) {

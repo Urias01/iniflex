@@ -3,10 +3,7 @@ package com.iniflex;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -90,6 +87,12 @@ public class Main {
                 System.out.println(funcionario);
             }
         });
+
+        // Exibir funcionário que tenha a maior idade
+        Funcionario maisVelho = funcionarios.stream().min(Comparator.comparing(Funcionario::getDataNascimento)).orElse(null);
+
+        System.out.println("Nome= " + maisVelho.getNome() + ", idade= " + maisVelho.getIdade());
+
         em.close();
         emf.close();
     }
