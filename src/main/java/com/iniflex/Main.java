@@ -84,6 +84,12 @@ public class Main {
         // Exibir os funcionários por função
         System.out.println(funcionarioPorFuncao);
 
+        // Exibir funcionários que fazem aniversário no mês 10 e 12
+        funcionarios.forEach(funcionario -> {
+            if (funcionario.getDataNascimento().getMonthValue() == 10 || funcionario.getDataNascimento().getMonthValue() == 12) {
+                System.out.println(funcionario);
+            }
+        });
         em.close();
         emf.close();
     }
