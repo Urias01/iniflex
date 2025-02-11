@@ -2,7 +2,11 @@ package com.iniflex.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import javax.persistence.*;
 
@@ -19,6 +23,10 @@ public class Funcionario extends Pessoa implements Serializable {
 
   private BigDecimal salario;
   private String funcao;
+
+  public Funcionario() {
+      super();
+  }
 
   public Funcionario(String nome, LocalDate dataNascimento, BigDecimal salario, String funcao) {
     super(nome, dataNascimento);
@@ -41,5 +49,35 @@ public class Funcionario extends Pessoa implements Serializable {
   public void setFuncao(String funcao) {
     this.funcao = funcao;
   }
-  
+
+  public static String formatBirthidate(LocalDate dataAniversario) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    String formattedDate = dataAniversario.format(formatter).toString();
+
+    return formattedDate;
+  }
+
+  public static String formatBigDecimal(BigDecimal salario) {
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("pt", "BR"));
+    symbols.setGroupingSeparator('.');
+    symbols.setDecimalSeparator(',');
+
+    DecimalFormat formatSalary = new DecimalFormat("#,##0.00", symbols);
+
+    String formattedSalary = formatSalary.format(salario);
+
+    return formattedSalary;
+  }
+
+  @Override
+  public String toString() {
+    return "Funcionario: {" +
+            "id=" + id +
+            " nome='" + getNome() + '\'' +
+            " data nascimento='" + formatBirthidate(getDataNascimento()) + '\'' +
+            " salario='" + formatBigDecimal(salario) + '\'' +
+            " funcao='" + funcao + '\'' +
+            '}';
+  }
 }

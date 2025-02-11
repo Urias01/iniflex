@@ -3,6 +3,8 @@ package com.iniflex;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -51,6 +53,11 @@ public class Main {
         q.executeUpdate();
         em.getTransaction().commit();
 
+        // Lista funcionários
+        q = em.createQuery("SELECT f FROM Funcionario f");
+        List<Funcionario> funcionarios = q.getResultList();
+
+        funcionarios.forEach(System.out::println);
 
         em.close();
         emf.close();
